@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<f:view
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  >
+  <h:head />
+  <h:body>
+    <h:form>
+      <h:panelGroup id="updatePanel" rendered="#{preferences.initialized}">
+
+        <h:panelGroup rendered="#{!twitter.loadingComplete}">
+
+          <div style="width: 100%; text-align: center !important;"><h:graphicImage url="/resources/loader.gif" /></div>
+
+          <p:remoteCommand async="true" global="false" 
+                           actionListener="#{twitter.loadTimeline}" 
+                           id="rc1" autoRun="true" 
+                           update="updatePanel" process="@this" delay="2000" />
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{twitter.loadingComplete}">
+          <img style='float: left;  ;margin-right: 8px; margin-top: 0' width="80" height="80" src="#{twitter.user.originalProfileImageURLHttps}" />
+          <h2>#{twitter.user.name}</h2>
+          <p><a target="_blank" href="https://twitter.com/#{twitter.user.screenName}">@#{twitter.user.screenName}</a></p>
+          <p>#{twitter.user.summary}<h:panelGroup rendered="#{twitter.user.urlPresent}"> <a target="_blank" href="#{twitter.user.url}">#{twitter.user.url}</a></h:panelGroup></p>
+
+          <h:dataTable styleClass="table" value="#{twitter.timeline}" var="status" >
+            <h:column><f:facet name="header">Tweets</f:facet>
+              <h:outputLink rendered="#{status.retweet}" target="_blank" value='https://twitter.com/#{status.retweetUserScreenName}'>@#{status.retweetUserScreenName}: </h:outputLink> 
+              <h:outputText escape="false" value="#{status.summary}" /><br/>
+              <font size="-1">#{status.date}</font>
+            </h:column>
+          </h:dataTable>
+        </h:panelGroup>
+      </h:panelGroup>
+      <h:panelGroup rendered="#{!preferences.initialized}">
+        <div class="sonia-message-error">Portlet ist nicht initialisiert!</div>
+      </h:panelGroup>
+    </h:form>
+  </h:body>
+</f:view>

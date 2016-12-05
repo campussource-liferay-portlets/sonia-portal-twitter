@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"  
+      xmlns:aui="http://liferay.com/faces/aui"  
+      xmlns:portlet="http://java.sun.com/portlet_2_0">
+  <body>
+    
+    <portlet:namespace var="twitterPrefsNS" />
+
+    <script type="text/javascript">
+      function setTwitterUserId( tui )
+      {
+        document.getElementById('#{twitterPrefsNS}\:preferencesForm\:tw1\:tw3\:twitterUser').value = tui;
+      }
+    </script>
+    
+    <aui:form id="preferencesForm">
+      <aui:fieldset id="tw1" label="Settings">
+        <aui:field id="tw2" label="Twitter User ID (long)">
+          <aui:col id="tw3" span="11">
+            <h:inputText id="twitterUser" style="width: 100%" value="#{preferences.twitterUserId}" />
+          </aui:col>
+        </aui:field>
+      </aui:fieldset> 
+
+      <aui:button-row>
+        <h:commandButton styleClass="btn btn-primary" value="Save" action="#{preferences.save}"/>
+      </aui:button-row>
+    </aui:form>
+
+    <aui:form id="searchFormId">
+      <aui:fieldset label="Search Twitter User ID">
+        <aui:field label="Query">
+          <aui:col span="11">
+            <h:inputText style="width: 100%" value="#{preferences.screenName}" />
+          </aui:col>
+        </aui:field>
+      </aui:fieldset> 
+
+      <aui:button-row>
+        <h:commandButton styleClass="btn" value="Search" action="#{preferences.search}"/>
+      </aui:button-row>
+    </aui:form>
+
+    <h:panelGroup rendered="#{preferences.responseAvailable}">
+      <h:dataTable styleClass="table" value="#{preferences.response}" var="user" >
+        <h:column><f:facet name="header">ID</f:facet><a onclick="setTwitterUserId('#{user.id}')" >#{user.id}</a></h:column>
+        <h:column><f:facet name="header">Screenname</f:facet>#{user.screenName}</h:column>
+        <h:column><f:facet name="header">Name</f:facet>#{user.name}</h:column>
+      </h:dataTable>
+    </h:panelGroup>
+
+    <h:panelGroup>
+      <aui:fieldset label="Portlet Information">
+        <aui:row>
+          <aui:col width="30"><h:outputText style="font-weight: bold" value="name"/></aui:col><aui:col    width="70"><h:outputText value="#{manifestBean.name}"/></aui:col>
+        </aui:row>
+        <aui:row>
+          <aui:col width="30"><h:outputText style="font-weight: bold" value="version"/></aui:col><aui:col  width="70"><h:outputText value="#{manifestBean.version}"/></aui:col>
+        </aui:row>
+        <aui:row>
+          <aui:col width="30"><h:outputText style="font-weight: bold" value="revision"/></aui:col><aui:col width="70"><h:outputText value="#{manifestBean.revision}"/></aui:col>
+        </aui:row>
+        <aui:row>
+          <aui:col width="30"><h:outputText style="font-weight: bold" value="build timestamp"/></aui:col><aui:col width="70"><h:outputText value="#{manifestBean.buildTimestamp}"/></aui:col>
+        </aui:row>
+        <aui:row>
+          <aui:col width="30"><h:outputText style="font-weight: bold" value="build number"/></aui:col><aui:col width="70"><h:outputText value="#{manifestBean.buildNumber}"/></aui:col>
+        </aui:row>
+      </aui:fieldset>
+    </h:panelGroup>
+  </body>
+</html>
