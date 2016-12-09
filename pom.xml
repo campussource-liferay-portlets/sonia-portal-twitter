@@ -4,43 +4,49 @@
   <modelVersion>4.0.0</modelVersion>
   
   <parent>
-    <groupId>sonia.portal</groupId>
+    <groupId>de.sonia.portal</groupId>
     <artifactId>sonia-portal-parent</artifactId>
-    <version>21</version>
+    <version>3</version>
   </parent>
   
-  <groupId>sonia.portal</groupId>
+  <groupId>de.sonia.portal</groupId>
   <artifactId>sonia-portal-twitter</artifactId>
   <packaging>war</packaging>
   <name>sonia-portal-twitter Portlet</name>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   
-  <!--
+  <description>PORTLET: Showing a Twitter timeline (Java 8, Liferay 6.2 CE)</description>
   
   <scm>
-    <connection>scm:hg:https://scm.ostfalia.de/scm/hg/portal/sonia-portal-twitter</connection>
-    <developerConnection>scm:hg:https://scm.ostfalia.de/scm/hg/portal/sonia-portal-twitter</developerConnection>
-    <url>https://scm.ostfalia.de/scm/hg/portal/sonia-portal-twitter</url>
+    <connection>scm:git:https://github.com/campussource-liferay-portlets/sonia-portal-twitter</connection>
+    <developerConnection>scm:git:https://github.com/campussource-liferay-portlets/sonia-portal-twitter</developerConnection>
+    <url>https://github.com/campussource-liferay-portlets/sonia-portal-twitter</url>
   </scm>
   
-  <ciManagement>
-    <system>jenkins</system>
-    <url>https://ci.ostfalia.de/jenkins/job/sonia-portal-twitter</url>
-  </ciManagement>
-  
-  <developers>
-    
+  <developers>  
     <developer>
-      <id>???</id>
-      <name>???</name>
-      <email>???</email>
+      <id>thorsten-l</id>
+      <name>Thorsten Ludewig</name>
+      <email>t.ludewig@ostfalia.de</email>
       <timezone>Europe/Berlin</timezone>
     </developer>
-    
   </developers>
-  
-  -->
+
+  <repositories>
+    <repository>  
+      <id>prime-repo</id>  
+      <name>PrimeFaces Maven Repository</name>  
+      <url>http://repository.primefaces.org</url>  
+      <layout>default</layout>  
+    </repository>  
+  </repositories>
+
   <dependencies>
+    <dependency>
+      <groupId>de.sonia.annotation</groupId>
+      <artifactId>sonia-annotation-portlet</artifactId>
+      <version>1.0.2</version>
+    </dependency>
     <dependency>
       <groupId>org.twitter4j</groupId>
       <artifactId>twitter4j-core</artifactId>
@@ -49,7 +55,7 @@
     <dependency>
       <groupId>org.primefaces</groupId>
       <artifactId>primefaces</artifactId>
-      <version>5.2.12</version>
+      <version>5.3</version>
     </dependency>
     <dependency>
       <groupId>org.primefaces.themes</groupId>

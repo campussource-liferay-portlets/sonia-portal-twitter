@@ -31,6 +31,9 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.ValidatorException;
+import sonia.annotation.portlet.SoniaPortletPreference;
+import sonia.annotation.portlet.SoniaPortletPreferencesHandler;
+import static sonia.portlet.twitter.TwitterSiteAttributes.*;
 
 /**
  *
@@ -46,12 +49,6 @@ public class PreferencesBean implements Serializable
    */
   private static final Log logger =
     LogFactoryUtil.getLog(PreferencesBean.class);
-
-  /**
-   * Field description
-   */
-  final static String PREF_USER_ID = PreferencesBean.class.getName()
-                                     + "_user_id";
 
   /** Field description */
   private static final long serialVersionUID = 4581239562028888412L;
@@ -84,15 +81,15 @@ public class PreferencesBean implements Serializable
 
     //
     twitterOauthConsumerKey =
-      (String) siteAttributes.getAttribute("twitter_oauth_consumer_key");
+      (String) siteAttributes.getAttribute(TWITTER_OAUTH_CONSUMER_KEY);
     twitterOauthConsumerSecret =
-      (String) siteAttributes.getAttribute("twitter_oauth_consumer_secret");
+      (String) siteAttributes.getAttribute(TWITTER_OAUTH_CONSUMER_SECRET);
     twitterOauthAccessToken =
-      (String) siteAttributes.getAttribute("twitter_oauth_access_token");
+      (String) siteAttributes.getAttribute(TWITTER_OAUTH_ACCESS_TOKEN);
     twitterOauthAccessTokenSecret =
-      (String) siteAttributes.getAttribute("twitter_oauth_access_token_secret");
+      (String) siteAttributes.getAttribute(TWITTER_OAUTH_ACCESS_TOKEN_SECRET);
 
-    twitterUserId = Long.parseLong(preferences.getValue(PREF_USER_ID, "0"));
+    SoniaPortletPreferencesHandler.load(preferences, this);
 
     //
     logger.trace("twitter oauth consumer key=" + twitterOauthConsumerKey);
@@ -148,15 +145,7 @@ public class PreferencesBean implements Serializable
     //
     logger.debug("twitter user id=" + twitterUserId);
 
-    try
-    {
-      preferences.setValue(PREF_USER_ID, "" + twitterUserId);
-      preferences.store();
-    }
-    catch (ReadOnlyException | IOException | ValidatorException ex)
-    {
-      logger.error("save preferences", ex);
-    }
+    SoniaPortletPreferencesHandler.store(preferences, this);
 
     initialize();
   }
@@ -376,6 +365,7 @@ public class PreferencesBean implements Serializable
   /**
    * Field description
    */
+  @SoniaPortletPreference
   private long twitterUserId;
 
   /**
